@@ -1,0 +1,39 @@
+$color-main: #111;
+$bg-body: #dee4e7;
+$bg-main: #F3F4F5;
+$bg-select: #336090;
+
+$color-btn-border: #677e96;
+$color-tblh-border: #677e96;
+$bg-tblh: #151a36;
+
+body {
+  margin: 0;
+  background-color: $bg-body;
+  min-width: 800px;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+    
+}
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 5px;
+    border: 6px solid transparent;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: darken($color-main, 1%);
+}
+h1, h2, h3 {margin: 0;}
+ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}

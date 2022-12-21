@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./css/main.css">
+  <script src="./js/script.js"></script>
+  <title>Document</title>
+</head>
+<body onload="main()">
+  <div class="popup">
+    
+  </div>
+  <div class="wrapper">
+    <header class="header">
+
+    </header>
+    <main class="main">
+      <h1 class="title">СПИСОК<br>військовозобов'язаних, які пропонуються до бронювання<br>на період мобілізації та на воєнний час</h1>
+      <div class="organization">
+        <span class="organization__input" role="textbox" contenteditable></span>        
+        <label for="">(найменвання органу державної влади, іншого державного органу, органу місцевого самоврядування,<br>підприємства, установи, організації)</label>
+      </div>      
+      <div class="people tbl-view">
+        <table class="tbl">
+          <thead class="tbl__head">
+            <tr class="tbl__head-row">
+              <th class="tbl__head-cell">№ з/п</th>
+              <th class="tbl__head-cell">Прізвище, ім'я та по батькові</th>
+              <th class="tbl__head-cell">Рік народження</th>
+              <th class="tbl__head-cell">Займана посада</th>
+              <th class="tbl__head-cell">Військове звання, військово-облікова спеціальність №</th>
+              <th class="tbl__head-cell">Найменування та адресу органу державної влади, іншого державного органу, органу місцевого самоврядування, підприємства, установи, організації, код ЄДРПОУ</th>
+              <th class="tbl__head-cell">Назва територіального центру комплектування та соціальної підтримки (за місцем розташування органу державної влади, іншого державного органу, органу місцевого самоврядування, підприємства, установи, організації)</th>
+              <th class="tbl__head-cell">Назва територіального центру комплектування та соціальної підтримки (за місцем перебування військовозобов'язаного на військовому обліку)</th>
+            </tr>
+          </thead>
+          <tbody class="tbl__body">
+          </tbody>
+        </table>
+        <div class="tbl-view__cmd">
+          <button id="btnNewPerson" class="btn icon img" onclick="btnNewPersonClick()">
+            <span class="btn__icon create"></span>
+            <span class="btn__title">Додати</span>
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <template id="dialogForm">
+    <div class="dialog-form">
+      <form class="dialog-form__cont">
+        <div class="dialog-form__fild">
+          <label for="full_name">Працівник</label>
+          <input type="text" id="full_name">
+        </div>
+        <div class="dialog-form__fild">
+          <label for="birth_year">Рік народження</label>
+          <input type="number" id="birth_year" min="1957" max="2007" required >
+        </div>         
+        <div class="dialog-form__fild">
+          <label for="position">Займана посада</label>          
+          <input type="text" id="position">
+        </div>
+        <div class="dialog-form__fild">
+          <label for="military_rank">Військове звання</label>
+          <div class="comboBox" id="military_rank">
+            <div class="inputFilter">
+              <span class="inputFilter__title"></span>
+              <span class="inputFilter__icon">&#9662;</span>
+            </div>
+            <div class="content">
+              <div class="search">
+                <span class="search__icon"></span>
+                <input type="text" placeholder="Пошук">
+              </div>
+              <ul class="options"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="dialog-form__fild">
+          <label for="military_number">Військово-облікова спеціальність</label>
+          <input type="text" id="military_number">
+        </div>
+        <div class="dialog-form__fild">
+          <label for="tck_person">Назва ТЦК та СП (за місцем перебування військовозобов'язаного на військовому обліку)</label>
+          <select>
+            <option value="null"></option>
+            <option value="1">Рядок</option>
+            <option value="2">Список значень</option>
+          </select>
+        </div>
+        <div class="tbl-view__cmd">
+          <button type="submit" class="btn" onclick="btnSaveNewPower()">
+              <span class="btn__title">Зберегти</span>
+          </button>
+          <button class="btn" onclick="closeWindowPopup()">
+              <span class="btn__title">Закрити</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </template>
+</body>
+</html>

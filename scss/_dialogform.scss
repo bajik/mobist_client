@@ -1,0 +1,107 @@
+.dialog-form {
+  display: inline-block;
+  padding: 10px;
+  border: 1px solid $color-main;
+  border-radius: 5px;
+
+  &__cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    row-gap: 10px;   
+  }
+  &__fild {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2px;
+    &>label {
+      font-size: 1rem;
+    }
+    &>textarea {
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    &>select, &>input {
+      font-size: 1rem;      
+      min-height: 1.8rem;
+      min-width: 50vw;
+    }
+  }
+  &__cont-ckb {
+    display: flex;
+    column-gap: 5px;
+    align-items: center;
+  }
+  & .tbl-view__cmd {
+    justify-content: right;
+  }
+
+  & .comboBox {
+    position: relative;
+
+    & .inputFilter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 1.75rem;
+      font-size: 1rem;
+      padding: 1px 2px;
+      border: 1px solid rgb(118, 118, 118);
+      background-color: white;
+      cursor: pointer;
+      user-select: none;  
+      &__icon {
+        font-size: 1.5rem;
+        transition: transform .3s linear;
+      }
+    }
+
+    & .content {
+      display: none;
+      
+      position: absolute;
+      top: 1.8rem;
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid rgb(118, 118, 118);
+      background-color: white;
+
+      &.active {
+        display: block;
+      }
+
+      & .search {
+        & input {
+          height: 1.8rem;
+          width: 100%;
+          outline: none;
+          font-size: 1rem;
+          padding: 1px 5px;
+          border-radius: 1px;
+          border: 1px solid rgb(118, 118, 118);
+        }
+      }
+
+      & .options {
+        margin-top: 10px;
+        max-height: 250px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+
+        & li {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          height: 1.25rem;          
+          font-size: 1rem;
+          padding: 0 13px;
+
+          &:hover {
+            background-color: #f2f2f2;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,133 @@
+@import 'conf';
+@import 'dialogform';
+
+.popup {
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease-in-out;
+  z-index: 5;
+
+  &--visible {
+      visibility: visible;
+      background: rgba($color: #000, $alpha: 0.3);
+  }
+  &>div {
+    background-color: $bg-main;
+  }
+}
+
+.wrapper {
+  background-color: $bg-main;
+  min-height: 100vh;
+  max-width: 1220px;
+  width: 100%;
+  margin: 0 auto;
+  box-shadow: 0 1px 8px 0 rgb(0 0 0 / 20%);
+  padding: 10px;
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+
+}
+
+.organization {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__input {
+    min-width: 560px;
+    text-align: center;
+    border-bottom: 2px solid black;
+    font-size: 1.1rem;
+    height: 1.5rem;
+    padding: 0 5px;
+  }
+
+  & label {
+    text-align: center;
+    font-size: 0.8rem;
+  }
+}
+
+.people {
+  margin-top: 20px;
+
+  & .tbl {
+    display: grid;
+    width: 100%;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+
+    border: 1px solid black;
+    border-bottom: none;
+  }
+
+  & .tbl__head, & .tbl__head-row, & .tbl__body, & .tbl__body-row {
+    display: contents;
+  }
+
+  & .tbl__head-cell, .tbl__body-cell {
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  & .tbl__head-cell:last-child, .tbl__body-cell:last-child {
+    border-right: none;
+  }
+  
+
+
+
+  // & .tbl__head-cell:first-child {
+  //   border-left: 1px solid black;
+  // }
+}
+
+.tbl-view {
+  &__cmd {
+    margin-top: 10px;
+    display: flex;
+    column-gap: 5px;
+    justify-content: left;
+    align-items: center;
+    & .btn {
+      display: flex;
+      column-gap: 6px;
+      align-items: center;
+      cursor: pointer;
+      background-color: transparent;
+      border: 1px solid $color-main;
+      border-radius: 5px;
+      box-shadow: 0 3px 5px -4px $color-main;
+      padding: 3px 10px 4px;
+      &__icon {
+          display: inline-block;
+          width: 1rem;
+          height: 1rem;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 1rem;
+          &.create {
+              background-image: url("../img/file-plus.svg");
+          }
+      }
+      &__title {
+        font-size: 1rem;
+        color: $color-main;
+      }
+    }
+  }
+}
