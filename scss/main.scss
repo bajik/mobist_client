@@ -1,6 +1,49 @@
 @import 'conf';
 @import 'dialogform';
 
+.context-menu {
+  position: fixed;
+  z-index: 10000;
+  width: 150px;
+  background-color: $bg-main;
+  border-radius: 2px;
+  // display: none;
+  transform: scale(0);
+  transform-origin: top left;
+  box-shadow: 0 1px 8px 0 rgb(0 0 0 / 20%);
+
+  &.visible {
+    // display: block;
+    transform: scale(1);
+    transition: transform 200ms ease-in-out;
+  }
+
+  & .item {
+    font-size: 1rem;
+    color: black;
+    cursor: pointer;
+    border-radius: inherit;
+
+    & input {
+      background-color: transparent;
+      border: none;
+      width: 100%;
+      padding: 5px;
+      font-size: inherit;
+      font-family: inherit;
+    }
+
+    &:hover {
+      background-color: #343434;
+      color: white;
+
+      & input {
+        color: inherit;
+      }
+    }
+  }
+}
+
 .popup {
   visibility: hidden;
   position: fixed;
@@ -14,7 +57,7 @@
   transition: all 0.1s ease-in-out;
   z-index: 5;
 
-  &--visible {
+  &.active {
       visibility: visible;
       background: rgba($color: #000, $alpha: 0.3);
   }
@@ -30,14 +73,158 @@
   width: 100%;
   margin: 0 auto;
   box-shadow: 0 1px 8px 0 rgb(0 0 0 / 20%);
-  padding: 10px;
+
+  &.print {
+    background-color: white;
+    max-width: none;
+    box-shadow: none;
+  }
+}
+
+.header {
+  background: radial-gradient(425.02px at 50% 50%, #104D82 0%, #234161 100%);
+
+  display: grid;
+  grid-template-columns: 0.3fr 1fr 0.3fr;
+  grid-template-areas:  "left logo right"
+                        "left title right"
+                        "nav nav nav";
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+
+  &.print {
+    display: none;
+  }
+
+  & .icon {
+    position: relative;
+    width: 10px;
+    height: 40px;
+    background-color: #004BC1;
+    align-self: center;
+    justify-self: left;
+    margin-left: 30px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      display: block;
+      width: 10px;
+      height: 20px;
+      background-color: #ffe358;
+    }
+  }
+
+  & .logo {
+    width: 60px;
+    height: 60px;
+    background: url('../img/logo.svg') center no-repeat;
+    margin-top: 20px;
+    grid-area: logo;    
+  }
+
+  & .title {
+    color: white;
+    grid-area: title;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 2.4rem;
+
+    & span {
+      font-size: 1rem;
+      color: #aab3c6;
+      letter-spacing: 0.2px;
+      line-height: 1rem;
+    }
+  }
+
+  & .menu {
+    grid-area: nav;
+    margin: 40px 0 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+
+    &__items {
+      display: flex;
+      column-gap: 30px;
+    }
+
+    &__item {
+      & input[type=button] {
+        background-color: transparent;
+        font-size: inherit;
+        font-weight: 600;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.main {
+  padding: 10px;  
+
+  & .signature {
+    display: none;
+    margin-top: 75px;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+
+    & div {
+      text-align: center;
+    }
+
+    &__border {
+      border-bottom: 1px solid black;
+      min-width: 15rem;
+    }
+
+    &.print {
+      display: grid;
+    }
+  }
+}
+
+.dodatok {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: right;
+
+  &.print {
+    margin: 0;
+  }
+  
+  &__input {
+    display: inline-block;
+    min-width: 1.1rem;
+    text-align: center;
+    border-bottom: 2px solid black;
+    font-size: 1rem;    
+    padding: 0 5px;
+
+    &.border-none {
+      border: none;
+    }
+
+    &.print {
+      border: none;
+    }
+  }
 }
 
 .title {
+  margin-top: 10px;
   text-align: center;
   font-weight: bold;
   font-size: 1.2rem;
-
 }
 
 .organization {
@@ -47,17 +234,22 @@
   align-items: center;
 
   &__input {
-    min-width: 560px;
+    min-width: 600px;
     text-align: center;
     border-bottom: 2px solid black;
     font-size: 1.1rem;
     height: 1.5rem;
     padding: 0 5px;
+
   }
 
   & label {
     text-align: center;
     font-size: 0.8rem;
+  }
+
+  & .comma.disable {
+    display: none;
   }
 }
 
@@ -75,6 +267,7 @@
 
   & .tbl__head, & .tbl__head-row, & .tbl__body, & .tbl__body-row {
     display: contents;
+    
   }
 
   & .tbl__head-cell, .tbl__body-cell {
@@ -83,12 +276,21 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;    
   }
+
+  & .tbl__body-cell {
+    font-weight: 400;
+    padding: 2px;
+  }
+  
   & .tbl__head-cell:last-child, .tbl__body-cell:last-child {
     border-right: none;
   }
   
-
+  .tbl__body-row:hover .tbl__body-cell {
+    background-color: #ccc;
+  }
 
 
   // & .tbl__head-cell:first-child {
@@ -103,6 +305,11 @@
     column-gap: 5px;
     justify-content: left;
     align-items: center;
+
+    &.print {
+      display: none;
+    }
+
     & .btn {
       display: flex;
       column-gap: 6px;
@@ -113,6 +320,11 @@
       border-radius: 5px;
       box-shadow: 0 3px 5px -4px $color-main;
       padding: 3px 10px 4px;
+
+      &:hover {
+        background-color: rgb(249,250,251);
+      }
+
       &__icon {
           display: inline-block;
           width: 1rem;

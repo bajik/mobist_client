@@ -4,22 +4,44 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="48x48" href="./img/icon-48x48.png">
   <link rel="stylesheet" href="./css/main.css">
   <script src="./js/script.js"></script>
   <title>Document</title>
 </head>
 <body onload="main()">
+  <div class="context-menu">
+    <div class="item"><input type="button" value="Редагувати" onclick="btnEditRowPeople()"></div>
+    <div class="item"><input type="button" value="Видалити" onclick="btnDeleteRowPeople()"></div>
+  </div>
   <div class="popup">
     
   </div>
   <div class="wrapper">
     <header class="header">
-
+      <div class="icon"></div>
+      <div class="logo"></div>
+      <div class="title">Міністерство з питань стратегічних<br>галузей промисловості України
+      <br><span>Мінстратегпром</span>
+      </div>
+      <nav class="menu">
+        <ul class="menu__items">
+          <!-- <li class="menu__item">Шаблон імпорту</li> -->
+          <li class="menu__item"><input type="button" value="Імпортувати список (JSON)" onclick="btnOpenDlgFormChoiceFile()"></li>
+          <li class="menu__item"><input type="button" value="Експорт списку (JSON)" onclick="fillDataToJSON()"></li>
+          <li class="menu__item"><input type="button" value="Друкувати" onclick="printList()"></li>
+          <!-- <li class="menu__item">Допомога</li> -->
+        </ul>
+        </nav>
     </header>
     <main class="main">
+      <div class="dodatok">Додаток <span class="dodatok__input" role="textbox" contenteditable></span>
       <h1 class="title">СПИСОК<br>військовозобов'язаних, які пропонуються до бронювання<br>на період мобілізації та на воєнний час</h1>
       <div class="organization">
-        <span class="organization__input" role="textbox" contenteditable></span>        
+        <div class="organization__input" role="textbox" contenteditable>
+          <span id="organization__name"></span><span class="comma disable">, ЄДРПОУ </span><span id="organization__code"></span>
+        </div>
+        <div id="organization__tck" style="display: none;"></div>
         <label for="">(найменвання органу державної влади, іншого державного органу, органу місцевого самоврядування,<br>підприємства, установи, організації)</label>
       </div>      
       <div class="people tbl-view">
@@ -45,15 +67,22 @@
             <span class="btn__title">Додати</span>
           </button>
         </div>
+        <div class="signature">
+          <div class="signature__manager">
+            <div class="signature__border"></div>
+            <div>(найменування посади керівника органу<br>державної влади, іншого державного<br>органу, органу місцевого самоврядування<br>підприємства, установи, організації)</div></div>
+          <div class="signature__sign"><div class="signature__border"></div><div>(підпис)</div></div>
+          <div class="signature__name"><div class="signature__border"></div><div>(ініціали (ініціал власного імені)<br>та прізвище)</div></div>
+        </div>
       </div>
 
     </main>
   </div>
-  <template id="dialogForm">
+  <template id="dialogFormPerson">
     <div class="dialog-form">
-      <form class="dialog-form__cont">
+      <div class="dialog-form__cont">
         <div class="dialog-form__fild">
-          <label for="full_name">Працівник</label>
+          <label for="full_name">Працівник (ПІБ)</label>
           <input type="text" id="full_name">
         </div>
         <div class="dialog-form__fild">
@@ -68,7 +97,7 @@
           <label for="military_rank">Військове звання</label>
           <div class="comboBox" id="military_rank">
             <div class="inputFilter">
-              <span class="inputFilter__title"></span>
+              <input type="text" class="inputFilter__title" readonly></input>
               <span class="inputFilter__icon">&#9662;</span>
             </div>
             <div class="content">
@@ -76,7 +105,7 @@
                 <span class="search__icon"></span>
                 <input type="text" placeholder="Пошук">
               </div>
-              <ul class="options"></ul>
+              <div class="items"></div>
             </div>
           </div>
         </div>
@@ -86,14 +115,22 @@
         </div>
         <div class="dialog-form__fild">
           <label for="tck_person">Назва ТЦК та СП (за місцем перебування військовозобов'язаного на військовому обліку)</label>
-          <select>
-            <option value="null"></option>
-            <option value="1">Рядок</option>
-            <option value="2">Список значень</option>
-          </select>
+          <div class="comboBox" id="tck_person">
+            <div class="inputFilter">
+              <input type="text" class="inputFilter__title" readonly></input>
+              <span class="inputFilter__icon">&#9662;</span>
+            </div>
+            <div class="content">
+              <div class="search">
+                <span class="search__icon"></span>
+                <input type="text" placeholder="Пошук">
+              </div>
+              <div class="items"></div>
+            </div>
+          </div>
         </div>
         <div class="tbl-view__cmd">
-          <button type="submit" class="btn" onclick="btnSaveNewPower()">
+          <button type="submit" class="btn" onclick="btnSavePerson()">
               <span class="btn__title">Зберегти</span>
           </button>
           <button class="btn" onclick="closeWindowPopup()">
@@ -101,6 +138,59 @@
           </button>
         </div>
       </form>
+    </div>
+  </template>
+  <template id="dialogFormOrganization">
+    <div class="dialog-form">
+      <div class="dialog-form__cont">
+        <div class="dialog-form__fild">
+          <label for="organization_name">Назва організації</label>
+          <input type="text" id="organization_name">
+        </div>
+        <div class="dialog-form__fild">
+          <label for="organization_code">ЄДРПОУ</label>
+          <input type="number" id="organization_code">
+        </div>                 
+        <div class="dialog-form__fild">
+          <label for="tck_organization">Назва ТЦК та СП (за місцем розташування організації)</label>
+          <div class="comboBox" id="tck_organization">
+            <div class="inputFilter">
+              <input type="text" class="inputFilter__title" readonly></input>
+              <span class="inputFilter__icon">&#9662;</span>
+            </div>
+            <div class="content">
+              <div class="search">
+                <span class="search__icon"></span>
+                <input type="text" placeholder="Пошук">
+              </div>
+              <div class="items"></div>
+            </div>
+          </div>
+        </div>
+        <div class="tbl-view__cmd">
+          <button type="submit" class="btn" onclick="btnSaveOrganization()">
+              <span class="btn__title">Зберегти</span>
+          </button>
+          <button class="btn" onclick="closeWindowPopup()">
+              <span class="btn__title">Закрити</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </template>
+  <template id="choiceFile">
+    <div class="dialog-form">
+      <div class="dialog-form__cont">
+        <h3>Імпортувати список (JSON)</h3>
+        <div>
+          <input type="file" id="loadJson" accept=".json"></li>
+        </div>
+        <div class="tbl-view__cmd">
+          <button class="btn" onclick="closeWindowPopup()">
+              <span class="btn__title">Закрити</span>
+          </button>
+        </div>
+      </div>
     </div>
   </template>
 </body>
